@@ -18,6 +18,9 @@ const NavBar = () => {
         <NavLink className="option" to="/contact">
           CONTACT
         </NavLink>
+        <NavLink className="option" to="/signin">
+          SIGN IN
+        </NavLink>
       </div>
     </div>
   );
