@@ -1,11 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import { auth } from "../../firebase/firebase.utils";
+
 import logo from "../../assets/images/otplogo.png";
 
 import "./navigation-header.scss";
 
-const NavBar = () => {
+const NavBar = ({ isAuth }) => {
   return (
     <div className="header">
       <NavLink to="/">
@@ -18,9 +20,15 @@ const NavBar = () => {
         <NavLink className="option" to="/contact">
           CONTACT
         </NavLink>
-        <NavLink className="option" to="/signin">
-          SIGN IN
-        </NavLink>
+        {isAuth ? (
+          <div className="option" onClick={() => auth.signOut()} to="/">
+            SIGN OUT
+          </div>
+        ) : (
+          <NavLink className="option" to="/signin">
+            SIGN IN
+          </NavLink>
+        )}
       </div>
     </div>
   );
