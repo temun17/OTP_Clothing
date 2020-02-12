@@ -5,7 +5,7 @@ import SignInAndSignOutPage from "../pages/SignInAndSignOutPage/SignInAndSignOut
 
 import NavBar from "../components/navigation-header/navigation-header";
 
-import { auth } from "../firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
 
 import { Route, Switch } from "react-router-dom";
 
@@ -23,13 +23,26 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState(
-        {
-          isAuth: user
-        },
-        () => console.log(this.state)
-      );
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapShot => {
+          this.setState(
+            {
+              isAuth: {
+                id: snapShot.id,
+                ...snapShot.data()
+              }
+            },
+            () => console.log(this.state)
+          );
+        });
+      } else {
+        this.setState({
+          isAuth: userAuth
+        });
+      }
     });
   }
 
