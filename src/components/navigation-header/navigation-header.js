@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { auth } from "../../firebase/firebase.utils";
 
@@ -34,4 +35,8 @@ const NavBar = ({ isAuth }) => {
   );
 };
 
-export default NavBar;
+const mapStateToProps = state => ({
+  isAuth: state.user.isAuth
+});
+
+export default connect(mapStateToProps)(NavBar);

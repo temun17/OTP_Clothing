@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  isAuth: null
+  isAuth: false
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
