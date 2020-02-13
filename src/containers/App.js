@@ -7,7 +7,7 @@ import NavBar from "../components/navigation-header/navigation-header";
 
 import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
 
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { setCurrentUser } from "../redux/user/user-actions";
@@ -39,21 +39,32 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
   render() {
+    const { isAuth } = this.props;
     return (
       <div className="App">
         <NavBar />
         <Switch>
           <Route exact path="/" component={Hompage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={SignInAndSignOutPage} />
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              isAuth ? <Redirect to="/" /> : <SignInAndSignOutPage />
+            }
+          />
         </Switch>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  isAuth: user.isAuth
+});
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
