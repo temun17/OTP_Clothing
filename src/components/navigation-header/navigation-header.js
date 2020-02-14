@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { auth } from "../../firebase/firebase.utils";
+import CartIcon from "../card-icon/card-icon";
+import CartDropDown from "../cart-dropdown/cart-dropdown";
 
 import logo from "../../assets/images/otplogo.png";
 
@@ -30,7 +32,9 @@ const NavBar = ({ isAuth }) => {
             SIGN IN
           </NavLink>
         )}
+        <CartIcon />
       </div>
+      <CartDropDown />
     </div>
   );
 };
